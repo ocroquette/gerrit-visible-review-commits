@@ -14,12 +14,16 @@ To avoid cluttering of the local repositories, only the active, current patch se
 
 There is currently no binary distribution of the plugin, only source code, so you will have to build it yourself (see below).
 
-Then, the usual procedure to install Gerrit plugins apply, e.g. use the SSH interface, or copy it in the ```<site>/plugins``` directory, and enable it.
+Then, the usual procedure to install Gerrit plugins apply, e.g. use the SSH interface, or copy it in the ```<site>/plugins``` directory, and make sure it is enabled.
 
 
 ## Configuration
 
 Currently, the plugin doesn't support any configuration. It will apply to all projects, and the namespace is hard-coded.
+
+## Activation
+
+Currently, the plugin currently reacts only to reference changes in a given project. So after enabling it, make sure you modify a reference, for instance by creating or deleting a branch, or creating a new review. In a future version, the plugin will do that automatically when it gets enabled.
 
 ## Building from source
 
@@ -46,3 +50,12 @@ The resulting JAR file can be found at:
 ```
 bazel-genfiles/plugins/ref-protection/visible-review-commits.jar
 ```
+
+## Links
+
+See also the following links:
+
+* [Discussion on the forum](https://groups.google.com/forum/#!topic/repo-discuss/7QgLHhK6Qw0)
+* [gerrit-refsfilter](https://github.com/GerritForge/gerrit-refsfilter), another approach
+
+
