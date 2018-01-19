@@ -30,6 +30,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class VisibleReviewCommitsModule extends AbstractModule {
+
+  public static String PLUGIN_NAME = "visible-review-commits";
+
   private static final Logger log =
       LoggerFactory.getLogger(VisibleReviewCommitsModule.class);
 

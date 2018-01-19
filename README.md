@@ -6,7 +6,7 @@
 [Gerrit](https://www.gerritcodereview.com/) keeps the references to the review commits (e.g. patch sets) in a special name space ```refs/changes/x/y/z```. It is cumbersome for a normal user to fetch these references.
 
 This plugin duplicates those references in a namespace that can be fetched easily with typical Git clients, e.g.:
-```refs/heads/reviews/<change>/<patchset>```
+```refs/heads/review/<change #>/<patchset #>```
 
 To avoid cluttering of the local repositories, only the active, current patch sets are kept.
 
@@ -19,7 +19,13 @@ Then, the usual procedure to install Gerrit plugins apply, e.g. use the SSH inte
 
 ## Configuration
 
-Currently, the plugin doesn't support any configuration. It will apply to all projects, and the namespace is hard-coded.
+The default namespace for the review branches is ```refs/heads/review```.
+You can modify this in the Gerrit configuration file, for instance:
+
+```
+[plugin "visible-review-commits"]    
+    namespace = refs/heads/changes/
+```
 
 ## Activation
 

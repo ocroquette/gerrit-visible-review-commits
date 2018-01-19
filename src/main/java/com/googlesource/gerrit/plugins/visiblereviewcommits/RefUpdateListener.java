@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -54,15 +55,20 @@ class RefUpdateListener implements EventListener {
       LoggerFactory.getLogger(RefUpdateListener.class);
 
   private final GitRepositoryManager repoManager;
-  private Provider<InternalChangeQuery> queryProvider;
-  final String PREFIX = "refs/heads/review/";
+  private final Provider<InternalChangeQuery> queryProvider;
+
+  final String DEFAULT_NAMESPACE = "refs/heads/review/";
+  final String namespace;
 
   @Inject
   RefUpdateListener(GitRepositoryManager repoManager,
                     Provider<InternalChangeQuery> queryProvider,
+                    PluginConfigFactory pluginfConfigFactory,
                     @PluginName String pluginName) {
     this.repoManager = repoManager;
     this.queryProvider = queryProvider;
+
+    this.namespace = getNamespace(pluginfConfigFactory);
   }
 
   @Override
@@ -80,6 +86,15 @@ class RefUpdateListener implements EventListener {
     } catch (OrmException | IOException e) {
       log.error(e.getMessage(), e);
     }
+  }
+
+  private String getNamespace(PluginConfigFactory pluginfConfigFactory) {
+    String namespace = pluginfConfigFactory.getFromGerritConfig(VisibleReviewCommitsModule.PLUGIN_NAME).getString("namespace", DEFAULT_NAMESPACE);
+    if ( ! namespace.startsWith("refs/") )
+      throw new RuntimeException(VisibleReviewCommitsModule.PLUGIN_NAME + ": namespace must start with refs/");
+    if ( ! namespace.endsWith("/") )
+      namespace = namespace + "/";
+    return namespace;
   }
 
 
@@ -105,7 +120,7 @@ class RefUpdateListener implements EventListener {
     for (Map.Entry<String, Ref> entry : allRefs.entrySet()) {
       String refName = entry.getKey();
       ObjectId currentCommitId = entry.getValue().getObjectId();
-      if (refName.startsWith(PREFIX)) {
+      if (refName.startsWith(namespace)) {
 
         log.debug("Looking at " + refName);
 
@@ -191,7 +206,7 @@ class RefUpdateListener implements EventListener {
    * @return
    */
   private String generateRefName(Change change, PatchSet patchSet) {
-    return String.format("%s%d/%d", PREFIX, change.getId().get(), patchSet.getId().patchSetId);
+    return String.format("%s%d/%d", namespace, change.getId().get(), patchSet.getId().patchSetId);
   }
 
   /**
