@@ -55,7 +55,7 @@ class RefUpdateListener implements EventListener {
 
   private final GitRepositoryManager repoManager;
   private Provider<InternalChangeQuery> queryProvider;
-  final String PREFIX = "refs/heads/reviews/";
+  final String PREFIX = "refs/heads/review/";
 
   @Inject
   RefUpdateListener(GitRepositoryManager repoManager,
