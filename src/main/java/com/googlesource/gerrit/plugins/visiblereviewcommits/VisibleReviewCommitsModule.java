@@ -31,8 +31,6 @@ import org.slf4j.LoggerFactory;
 
 public class VisibleReviewCommitsModule extends AbstractModule {
 
-  public static String PLUGIN_NAME = "visible-review-commits";
-
   private static final Logger log =
       LoggerFactory.getLogger(VisibleReviewCommitsModule.class);
 
@@ -41,5 +39,7 @@ public class VisibleReviewCommitsModule extends AbstractModule {
     log.debug("Configuring " + VisibleReviewCommitsModule.class);
     DynamicSet.bind(binder(), EventListener.class).to(
         RefUpdateListener.class);
+    DynamicSet.bind(binder(), ProjectRefresher.class).to(
+        ProjectRefresher.class);
   }
 }

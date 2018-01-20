@@ -3,23 +3,23 @@
 ## Introduction
 
 
-[Gerrit](https://www.gerritcodereview.com/) keeps the references to the review commits (e.g. patch sets) in a special name space ```refs/changes/x/y/z```. It is cumbersome for a normal user to fetch these references.
+[Gerrit](https://www.gerritcodereview.com/) keeps all references to the review commits (e.g. patch sets) in a special, single namespace, e.g. ```refs/changes/x/y/z```. It is cumbersome for a normal user to fetch these references.
 
-This plugin duplicates those references in a namespace that can be fetched easily with typical Git clients, e.g.:
-```refs/heads/review/<change #>/<patchset #>```
+This plugin mirrors the the active patch sets in a namespace that can be fetched easily with typical Git clients, for instance:
+```refs/heads/review/<change #>/<patchset #>```. 
 
-To avoid cluttering of the local repositories, only the active, current patch sets are kept.
+The default namespace is in `refs/heads/`, so that the Git clients see and fetch the references automatically. If you want the active path sets to be seen only when fetched explicitely, for instance for a CI server, but not for normal users, you can configure namespace like `refs/ci/` instead.
 
 ## Installation
 
 There is currently no binary distribution of the plugin, only source code, so you will have to build it yourself (see below).
 
-Then, the usual procedure to install Gerrit plugins apply, e.g. use the SSH interface, or copy it in the ```<site>/plugins``` directory, and make sure it is enabled.
+Then, the usual procedure to install Gerrit plugins applies, e.g. use the SSH interface, or copy it in the ```<site>/plugins``` directory, and make sure it is enabled.
 
 
 ## Configuration
 
-The default namespace for the review branches is ```refs/heads/review```.
+The default namespace for the review branches is ```refs/heads/review/```.
 You can modify this in the Gerrit configuration file, for instance:
 
 ```
@@ -27,9 +27,26 @@ You can modify this in the Gerrit configuration file, for instance:
     namespace = refs/heads/changes/
 ```
 
+The plugin will not delete the previous namespace if you modify it in the configuration, so if possible, set the proper value right from the beginning.
+
 ## Activation
 
-Currently, the plugin currently reacts only to reference changes in a given project. So after enabling it, make sure you modify a reference, for instance by creating or deleting a branch, or creating a new review. In a future version, the plugin will do that automatically when it gets enabled.
+After the plugin has been activated, it will create and delete the visible references according to the changes status every time another reference is modified in the project, for instance when changes are patched, abandonned or merged. To trigger the initial creation of the visible references, use the SSH command "refresh", as described below. 
+
+## SSH commands
+
+The plugin supports a command called `refresh` to trigger the initial creation of the references or to update them at any later time.
+
+```
+$ ssh gerrit visible-review-commits refresh -h
+
+visible-review-commits refresh [--] [--all] [--help (-h)] [--project VAL]
+
+ --            : end of options
+ --all         : Refresh all projects
+ --help (-h)   : display this help text
+ --project VAL : Refresh the given project only
+```
 
 ## Building from source
 
@@ -44,11 +61,9 @@ git clone https://gerrit.googlesource.com/gerrit
 cd gerrit
 git checkout v2.15-rc2
 
-cd plugins
+git  clone  https://github.com/ocroquette/gerrit-visible-review-commits  plugins/visible-review-commits
 
-git clone  https://github.com/ocroquette/gerrit-visible-review-commits   visible-review-commits
-
-bazel build plugins/gerrit-visible-review-commits
+bazel  build  plugins/gerrit-visible-review-commits
 ```
 
 The resulting JAR file can be found at:
