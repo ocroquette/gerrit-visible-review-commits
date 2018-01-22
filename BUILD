@@ -12,7 +12,7 @@ gerrit_plugin(
     resources = glob(["src/main/resources/**/*"]),
     manifest_entries = [
         "Implementation-Title: Visible Review Commits plugin",
-        "Implementation-Version: 1.0",
+        "Implementation-Version: 1.1-SNAPSHOT",
         "Implementation-URL: https://github.com/ocroquette/gerrit-visible-review-commits",
         "Gerrit-PluginName: visible-review-commits",
         "Gerrit-Module: com.googlesource.gerrit.plugins.visiblereviewcommits.VisibleReviewCommitsModule",
