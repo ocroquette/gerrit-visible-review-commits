@@ -31,7 +31,7 @@ The plugin will not delete the previous namespace if you modify it in the config
 
 ## Activation
 
-After the plugin has been activated, it will create and delete the visible references according to the changes status every time another reference is modified in the project, for instance when changes are patched, abandonned or merged. To trigger the initial creation of the visible references, use the SSH command "refresh", as described below. 
+After the plugin has been activated, it will create and delete the visible references according to the changes status every time another reference is modified in the project, for instance when changes are patched, abandoned or merged. To trigger the initial creation of the visible references, use the SSH command "refresh", as described below. 
 
 ## SSH commands
 
