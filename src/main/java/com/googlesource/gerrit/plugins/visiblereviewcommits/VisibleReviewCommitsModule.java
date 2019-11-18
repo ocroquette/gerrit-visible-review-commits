@@ -23,7 +23,7 @@
  */
 package com.googlesource.gerrit.plugins.visiblereviewcommits;
 
-import com.google.gerrit.common.EventListener;
+import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.inject.AbstractModule;
 import org.slf4j.Logger;

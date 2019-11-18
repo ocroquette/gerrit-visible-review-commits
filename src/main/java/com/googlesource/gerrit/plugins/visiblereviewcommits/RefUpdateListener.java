@@ -23,10 +23,9 @@
  */
 package com.googlesource.gerrit.plugins.visiblereviewcommits;
 
-import com.google.gerrit.common.EventListener;
+import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.RefUpdatedEvent;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,7 +58,7 @@ class RefUpdateListener implements EventListener {
 
     try {
       projectRefresher.updateRefsInProject(refUpdate.getProjectNameKey());
-    } catch (OrmException | IOException e) {
+    } catch (IOException e) {
       log.error(e.getMessage(), e);
     }
   }

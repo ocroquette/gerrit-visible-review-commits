@@ -1,13 +1,12 @@
 package com.googlesource.gerrit.plugins.visiblereviewcommits;
 
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import org.eclipse.jgit.lib.ObjectId;
@@ -54,10 +53,9 @@ public class ProjectRefresher {
    * when some changes are already present.
    *
    * @param projectNameKey
-   * @throws OrmException
    * @throws IOException
    */
-  public void updateRefsInProject(Project.NameKey projectNameKey) throws OrmException, IOException {
+  public void updateRefsInProject(Project.NameKey projectNameKey) throws IOException {
 
     Map<String, Ref> allRefs = getAllRefsInRepo(projectNameKey);
 
@@ -132,7 +130,7 @@ public class ProjectRefresher {
    * @return a map, the are the reference names, the values the ObjectId's, e.g. the commit ID's
    * @throws OrmException
    */
-  private Map<String, ObjectId> generateTargetState(Project.NameKey projectNameKey, Map<String, Ref> allRefs) throws OrmException {
+  private Map<String, ObjectId> generateTargetState(Project.NameKey projectNameKey, Map<String, Ref> allRefs) {
     Map<String, ObjectId> targetState = new TreeMap<String, ObjectId>();
     log.debug("Changes in this repository:");
     InternalChangeQuery internalChangeQuery = queryProvider.get();
@@ -148,7 +146,7 @@ public class ProjectRefresher {
       }
 
       PatchSet currentPs = changeData.currentPatchSet();
-      ObjectId objectId = allRefs.get(currentPs.getRefName()).getObjectId();
+      ObjectId objectId = allRefs.get(currentPs.refName()).getObjectId();
       String generatedRefName = generateRefName(changeData.change(), currentPs);
       targetState.put(generatedRefName, objectId);
     }
@@ -162,7 +160,7 @@ public class ProjectRefresher {
    * @return
    */
   private String generateRefName(Change change, PatchSet patchSet) {
-    return String.format("%s%d/%d", namespace, change.getId().get(), patchSet.getId().patchSetId);
+    return String.format("%s%d/%d", namespace, change.getId().get(), patchSet.number());
   }
 
   /**

@@ -1,12 +1,10 @@
 package com.googlesource.gerrit.plugins.visiblereviewcommits;
 
 
-
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gerrit.sshd.CommandMetaData;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
@@ -60,7 +58,7 @@ class SshCommandRefresh extends SshCommand {
     stdout.println("Refreshing project \"" + projectKey + "\"");
     try {
       projectRefresher.updateRefsInProject(projectKey);
-    } catch (OrmException|IOException e) {
+    } catch (IOException e) {
       stderr.println("ERROR: while updating " + projectKey + ": " + e.toString());
     }
   }
