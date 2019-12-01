@@ -59,7 +59,7 @@ This plugin is built with Bazel from Gerrit's source tree, and [the same prerequ
 ```
 git clone https://gerrit.googlesource.com/gerrit
 cd gerrit
-git checkout v3.0.4
+git checkout v3.1.0
 
 git clone https://github.com/ocroquette/gerrit-visible-review-commits plugins/visible-review-commits
 

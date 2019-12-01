@@ -1,8 +1,8 @@
 package com.googlesource.gerrit.plugins.visiblereviewcommits;
 
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -146,7 +146,7 @@ public class ProjectRefresher {
       }
 
       PatchSet currentPs = changeData.currentPatchSet();
-      ObjectId objectId = allRefs.get(currentPs.getRefName()).getObjectId();
+      ObjectId objectId = allRefs.get(currentPs.refName()).getObjectId();
       String generatedRefName = generateRefName(changeData.change(), currentPs);
       targetState.put(generatedRefName, objectId);
     }
@@ -160,7 +160,7 @@ public class ProjectRefresher {
    * @return
    */
   private String generateRefName(Change change, PatchSet patchSet) {
-    return String.format("%s%d/%d", namespace, change.getId().get(), patchSet.getId().patchSetId);
+    return String.format("%s%d/%d", namespace, change.getId().get(), patchSet.number());
   }
 
   /**

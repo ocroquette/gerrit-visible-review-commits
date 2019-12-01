@@ -1,7 +1,7 @@
 package com.googlesource.gerrit.plugins.visiblereviewcommits;
 
 
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gerrit.sshd.CommandMetaData;
