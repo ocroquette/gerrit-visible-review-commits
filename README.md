@@ -59,11 +59,11 @@ This plugin is built with Bazel from Gerrit's source tree, and [the same prerequ
 ```
 git clone https://gerrit.googlesource.com/gerrit
 cd gerrit
-git checkout v2.15-rc2
+git checkout v3.0.4
 
-git  clone  https://github.com/ocroquette/gerrit-visible-review-commits  plugins/visible-review-commits
+git clone https://github.com/ocroquette/gerrit-visible-review-commits plugins/visible-review-commits
 
-bazel  build  plugins/gerrit-visible-review-commits
+bazel build plugins/visible-review-commits
 ```
 
 The resulting JAR file can be found at:

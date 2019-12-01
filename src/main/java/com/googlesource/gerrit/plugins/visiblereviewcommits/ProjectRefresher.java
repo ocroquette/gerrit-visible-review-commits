@@ -7,7 +7,6 @@ import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import org.eclipse.jgit.lib.ObjectId;
@@ -54,10 +53,9 @@ public class ProjectRefresher {
    * when some changes are already present.
    *
    * @param projectNameKey
-   * @throws OrmException
    * @throws IOException
    */
-  public void updateRefsInProject(Project.NameKey projectNameKey) throws OrmException, IOException {
+  public void updateRefsInProject(Project.NameKey projectNameKey) throws IOException {
 
     Map<String, Ref> allRefs = getAllRefsInRepo(projectNameKey);
 
@@ -132,7 +130,7 @@ public class ProjectRefresher {
    * @return a map, the are the reference names, the values the ObjectId's, e.g. the commit ID's
    * @throws OrmException
    */
-  private Map<String, ObjectId> generateTargetState(Project.NameKey projectNameKey, Map<String, Ref> allRefs) throws OrmException {
+  private Map<String, ObjectId> generateTargetState(Project.NameKey projectNameKey, Map<String, Ref> allRefs) {
     Map<String, ObjectId> targetState = new TreeMap<String, ObjectId>();
     log.debug("Changes in this repository:");
     InternalChangeQuery internalChangeQuery = queryProvider.get();
