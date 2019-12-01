@@ -141,7 +141,7 @@ public class ProjectRefresher {
       log.debug("Status: " + status);
 
       if (status != Change.Status.NEW) {
-        // Ignore merged or abandonned changes
+        // Ignore merged or abandoned changes
         continue;
       }
 
