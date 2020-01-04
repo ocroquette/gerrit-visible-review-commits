@@ -69,7 +69,7 @@ bazel build plugins/visible-review-commits
 The resulting JAR file can be found at:
 
 ```
-bazel-genfiles/plugins/ref-protection/visible-review-commits.jar
+bazel-bin/plugins/visible-review-commits/visible-review-commits.jar
 ```
 
 ## Links
